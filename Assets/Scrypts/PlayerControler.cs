@@ -6,6 +6,7 @@ public class PlayerControler : MonoBehaviour
 {
     [SerializeField] private bool canMove = true;
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float maxPos;
     Rigidbody2D rigidbody2D;
     Vector2 direction;
     // Start is called before the first frame update
@@ -31,5 +32,8 @@ public class PlayerControler : MonoBehaviour
     {
         direction.x = Input.GetAxisRaw("Horizontal");
         rigidbody2D.MovePosition(rigidbody2D.position + direction * moveSpeed * Time.fixedDeltaTime);
+
+        float xPos = Mathf.Clamp(transform.position.x, -maxPos, maxPos);
+        transform.position = new Vector3(xPos, transform.position.y, transform.position.z);
     }
 }
