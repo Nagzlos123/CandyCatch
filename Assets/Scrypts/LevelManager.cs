@@ -34,15 +34,9 @@ public class LevelManager : MonoBehaviour
 
     private void SpawnCandy()
     {
-        randomCandy = RandomElement<GameObject>(candySet);
-        randomPoint = RandomElement<Transform>(spaningPoints);
+        randomCandy = HandyTools.RandomElement<GameObject>(candySet);
+        randomPoint = HandyTools.RandomElement<Transform>(spaningPoints);
         Instantiate(candySet[randomCandy], spaningPoints[randomPoint]);
-    }
-    private int RandomElement<T>(T[] elemets)
-    {
-         int randomNumber = Random.Range(0, elemets.Length);
-
-        return randomNumber;
     }
 
     IEnumerator SpawnCandies()

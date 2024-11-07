@@ -21,6 +21,7 @@ public class Candy : MonoBehaviour
         if (collision.gameObject.tag == "Player") 
         {
             GameManager.Instance.InremetScore();
+            GameManager.Instance.UpdateLevelObjective();
             Destroy(gameObject);
         }
 
