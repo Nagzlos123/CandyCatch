@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Candy : MonoBehaviour
+public class Rock : MonoBehaviour
 {
+    [SerializeField] private bool isSpecialRock;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,18 +17,26 @@ public class Candy : MonoBehaviour
         
     }
 
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player") 
         {
-            GameManager.Instance.InremetScore();
-            GameManager.Instance.UpdateLevelObjective();
-            Destroy(gameObject);
+            if (!isSpecialRock)
+            {
+                GameManager.Instance.DecreaseLive(1);
+                Destroy(gameObject);
+            }
+            else
+            {
+                GameManager.Instance.DecreaseLive(2);
+                Destroy(gameObject);
+            }
         }
 
         if (collision.gameObject.tag == "Destroy")
         {
-            GameManager.Instance.DecreaseLive(1);
+            
             Destroy(gameObject);
         }
     }

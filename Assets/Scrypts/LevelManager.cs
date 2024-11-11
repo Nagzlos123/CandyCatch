@@ -5,18 +5,27 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private Transform[] spaningPoints;
-    [SerializeField] private GameObject[] candySet;
+
+    [SerializeField] private GameObject[] rockSet1;
+    [SerializeField] private GameObject[] rockSet2;
+
+    [SerializeField] private GameObject[] candySet1;
+    [SerializeField] private GameObject[] candySet2;
+    [SerializeField] private GameObject[] candySet3;
+    [SerializeField] private GameObject[] candySet4;
+    [SerializeField] private GameObject[] candySet5;
+    [SerializeField] private GameObject[] candySet6;
     public int randomPoint = 0;
     public int randomCandy = 0;
     [SerializeField] float spawnInterval;
 
-    public static LevelManager instance;
+    public static LevelManager Instance;
 
     private void Awake()
     {
-        if (instance == null) 
+        if (Instance == null) 
         {
-            instance = this;
+            Instance = this;
         }
     }
     // Start is called before the first frame update
@@ -32,7 +41,7 @@ public class LevelManager : MonoBehaviour
         //SpanCandy();
     }
 
-    private void SpawnCandy()
+    private void SpawnCandy(GameObject[] candySet)
     {
         randomCandy = HandyTools.RandomElement<GameObject>(candySet);
         randomPoint = HandyTools.RandomElement<Transform>(spaningPoints);
@@ -45,7 +54,7 @@ public class LevelManager : MonoBehaviour
 
         while (true) 
         {
-            SpawnCandy();
+            SpawnCandy(candySet1);
             yield return new WaitForSeconds(spawnInterval);
         }
     }

@@ -63,16 +63,26 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void DecreaseLive()
+    public void DecreaseLive(int value)
     {
         if ((lives > 0))
         {
-            lives--;
-            liveText.text = lives.ToString();
+            var newLives = lives - value;
+            if (newLives < 0)
+            {
+                newLives = 0;
+                liveText.text = newLives.ToString();
+            }
+            else
+            {
+                liveText.text = newLives.ToString();
+            }
         }
         else 
         {
             gameOver = true;
+
+            GameOver(gameOver);
         
         }
     }
@@ -81,7 +91,8 @@ public class GameManager : MonoBehaviour
     {
         if (gameOver)
         {
-
+            Debug.Log("Game Over!");
+            LevelManager.Instance.StopSpawning();
         }
 
     }
