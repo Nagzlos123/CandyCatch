@@ -25,9 +25,9 @@ public class Candy : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (collision.gameObject.tag == "Destroy")
+        else if (collision.gameObject.tag == "Destroy")
         {
-            GameManager.Instance.DecreaseLive(1);
+            GameManager.Instance.DecreaseLive();
             Destroy(gameObject);
         }
     }

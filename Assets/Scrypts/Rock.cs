@@ -34,7 +34,7 @@ public class Rock : MonoBehaviour
             }
         }
 
-        if (collision.gameObject.tag == "Destroy")
+        else if (collision.gameObject.tag == "Destroy")
         {
             
             Destroy(gameObject);

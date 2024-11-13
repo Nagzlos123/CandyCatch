@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerControler : MonoBehaviour
 {
-    [SerializeField] private bool canMove = true;
+    public bool canMove = true;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float maxPos;
     Rigidbody2D rigidbody2D;

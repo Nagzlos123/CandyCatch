@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI objectiveText;
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI liveText;
+    [SerializeField] private TextMeshProUGUI scorePointsText;
     private void Awake()
     {
         Instance = this;
@@ -38,7 +39,11 @@ public class GameManager : MonoBehaviour
 
     public void InremetScore()
     {
-        score++;
+        if (!gameOver)
+        {
+            score++;
+            scorePointsText.text = score.ToString();
+        }
     }
 
     public void UpdateLevelObjective()
@@ -67,15 +72,15 @@ public class GameManager : MonoBehaviour
     {
         if ((lives > 0))
         {
-            var newLives = lives - value;
-            if (newLives < 0)
+            lives = lives - value;
+            if (lives < 0)
             {
-                newLives = 0;
-                liveText.text = newLives.ToString();
+                lives = 0;
+                liveText.text = lives.ToString();
             }
             else
             {
-                liveText.text = newLives.ToString();
+                liveText.text = lives.ToString();
             }
         }
         else 
@@ -87,12 +92,37 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void DecreaseLive()
+    {
+        if ((lives > 0))
+        {
+            lives--;
+            if (lives < 0)
+            {
+                lives = 0;
+                liveText.text = lives.ToString();
+            }
+            else
+            {
+                liveText.text = lives.ToString();
+            }
+        }
+        else
+        {
+            gameOver = true;
+
+            GameOver(gameOver);
+
+        }
+    }
+
     public void GameOver(bool gameOver)
     {
         if (gameOver)
         {
-            Debug.Log("Game Over!");
             LevelManager.Instance.StopSpawning();
+            GameObject.Find("Player").GetComponent<PlayerControler>().canMove = false;
+            Debug.Log("Game Over!");
         }
 
     }
