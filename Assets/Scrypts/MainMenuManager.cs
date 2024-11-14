@@ -1,18 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void StartGame()
     {
-        
+        SceneManager.LoadScene("MainGame");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void BestScore()
     {
-        
+        Debug.Log("Displaing best score!");
+    }
+
+    public void Quit()
+    {
+      HandyTools.QuitGame();
     }
 }

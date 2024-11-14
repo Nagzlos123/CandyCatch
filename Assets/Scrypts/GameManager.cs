@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     private bool gameOver = false;
 
+    [SerializeField] private GameObject gameOverPanel;
     //UI elements
     [SerializeField] private TextMeshProUGUI objectiveText;
     [SerializeField] private TextMeshProUGUI levelText;
@@ -122,6 +123,7 @@ public class GameManager : MonoBehaviour
         {
             LevelManager.Instance.StopSpawning();
             GameObject.Find("Player").GetComponent<PlayerControler>().canMove = false;
+            gameOverPanel.SetActive(true);
             Debug.Log("Game Over!");
         }
 

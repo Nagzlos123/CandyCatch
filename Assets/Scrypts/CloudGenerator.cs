@@ -9,11 +9,13 @@ public class CloudGenerator : MonoBehaviour
     [SerializeField] Vector3 startPosition;
     [SerializeField] GameObject endPosition;
     [SerializeField] Transform someParent;
+
+    public bool cloudGenerator = true;
     // Start is called before the first frame update
     void Start()
     {
         startPosition = transform.position;
-        CloudsStartSetUp();
+        if(cloudGenerator == true) CloudsStartSetUp();
         Invoke("AttempToSpawn", spawnInterval);
     }
 
