@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    Dictionary<GameObject, GameObject[]> LevelSetUps = new Dictionary<GameObject, GameObject[]>();
+
     [SerializeField] private Transform[] spaningPoints;
+    [SerializeField] private GameObject[] gameLevels;
 
     [SerializeField] private GameObject[] rockSet1;
     [SerializeField] private GameObject[] rockSet2;
@@ -21,6 +24,12 @@ public class LevelManager : MonoBehaviour
 
     public static LevelManager Instance;
 
+    public LevelSetUp currentSetUp;
+    public enum LevelSetUp
+    {
+        Level1, Level2, Level3, Level4, Level5, Level6
+    }
+
     private void Awake()
     {
         if (Instance == null) 
@@ -31,6 +40,7 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        AddingElemetsToDictionary();
         //SpawnCandy();
         StarSpawning();
     }
@@ -39,6 +49,75 @@ public class LevelManager : MonoBehaviour
     void Update()
     {
         //SpanCandy();
+        ManageLevels();
+    }
+
+    private void AddingElemetsToDictionary()
+    {
+        LevelSetUps.Add(gameLevels[0], candySet1);
+        LevelSetUps.Add(gameLevels[1], candySet2);
+        LevelSetUps.Add(gameLevels[2], candySet3);
+        LevelSetUps.Add(gameLevels[3], candySet4);
+        LevelSetUps.Add(gameLevels[4], candySet5);
+        LevelSetUps.Add(gameLevels[5], candySet6);
+    }
+
+    private void ActivateSection(GameObject section)
+    {
+        for (int i = 0; i < gameLevels.Length; i++)
+        {
+            if(gameLevels[i] == section)
+            {
+                gameLevels[i].SetActive(true);
+            }
+            else
+            {
+                gameLevels[i].SetActive(false);
+            }
+        }
+    }
+
+    private void ChangeLevelSetUp(GameObject gamelevel)
+    {
+        var candySet = LevelSetUps[gamelevel];
+
+        ActivateSection(gamelevel);
+        //gamelevel.SetActive(true);
+
+        SpawnCandy(candySet);
+
+    }
+    public void ManageLevels()
+    {
+     
+        switch (currentSetUp)
+        { 
+            case LevelSetUp.Level1:
+                ChangeLevelSetUp(gameLevels[0]);
+                break;
+            case LevelSetUp.Level2:
+                ChangeLevelSetUp(gameLevels[1]);
+                break;
+            case LevelSetUp.Level3:
+                ChangeLevelSetUp(gameLevels[2]);
+                break;
+            case LevelSetUp.Level4:
+                ChangeLevelSetUp(gameLevels[3]);
+                break;
+            case LevelSetUp.Level5:
+                ChangeLevelSetUp(gameLevels[4]);
+                break;
+            case LevelSetUp.Level6:
+                ChangeLevelSetUp(gameLevels[5]);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void SetLevelStage(LevelSetUp newSetUp)
+    {
+        currentSetUp = newSetUp;
     }
 
     private void SpawnCandy(GameObject[] candySet)
@@ -48,13 +127,13 @@ public class LevelManager : MonoBehaviour
         Instantiate(candySet[randomCandy], spaningPoints[randomPoint]);
     }
 
-    IEnumerator SpawnCandies()
+    IEnumerator SpawnCandies(GameObject[] candySet)
     {
         yield return new WaitForSeconds(2f);
 
         while (true) 
         {
-            SpawnCandy(candySet1);
+            SpawnCandy(candySet);
             yield return new WaitForSeconds(spawnInterval);
         }
     }

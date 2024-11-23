@@ -12,6 +12,11 @@ public static class HandyTools
         return randomNumber;
     }
 
+    public static void LoadCurrentScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
 
     public static void QuitGame()
     {

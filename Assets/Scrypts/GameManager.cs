@@ -10,13 +10,14 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [SerializeField] private int score = 0;
-    [SerializeField] private int levelObjective = 0;
+    [SerializeField] private int levelObjective = 5;
     [SerializeField] private int currentLevel = 1;
     [SerializeField] private int lives = 3;
 
     private bool gameOver = false;
 
     [SerializeField] private GameObject gameOverPanel;
+    [SerializeField] private GameObject pausePanel;
     //UI elements
     [SerializeField] private TextMeshProUGUI objectiveText;
     [SerializeField] private TextMeshProUGUI levelText;
@@ -29,13 +30,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        SetUpStartLevel();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        //ChangeLevel(currentLevel);
     }
 
     public void InremetScore()
@@ -57,16 +58,27 @@ public class GameManager : MonoBehaviour
 
     public void ChangeLevel(int currentLevel)
     {
-        if (levelObjective == 0) 
+        if (levelObjective == score) 
         {
             currentLevel += 1;
             levelText.text = currentLevel.ToString();
+            levelObjective = levelObjective * currentLevel;
+            objectiveText.text = levelObjective.ToString();
         }
     }
 
-    private void SetUpLevel(int currentLevel)
+    private void SetUpNextLevel(int currentLevel)
     {
+        levelObjective = levelObjective * currentLevel;
+        currentLevel++;
+    }
 
+    private void SetUpStartLevel()
+    {
+        objectiveText.text = levelObjective.ToString();
+        levelText.text = currentLevel.ToString();
+        liveText.text = lives.ToString();
+        scorePointsText.text = score.ToString();
     }
 
     public void DecreaseLive(int value)
@@ -117,6 +129,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void IncreaseLive()
+    {
+        if ((lives > 0))
+        {
+            lives++;
+        }
+    }
     public void GameOver(bool gameOver)
     {
         if (gameOver)
@@ -127,5 +146,10 @@ public class GameManager : MonoBehaviour
             Debug.Log("Game Over!");
         }
 
+    }
+
+    public void RestartGame()
+    {
+        HandyTools.LoadCurrentScene();
     }
 }
