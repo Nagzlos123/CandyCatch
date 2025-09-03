@@ -9,9 +9,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [SerializeField] private int score = 0;
-    [SerializeField] private int levelObjective = 5;
-    [SerializeField] private int currentLevel = 1;
+    [SerializeField] public int score = 0;
+    [SerializeField] public int levelObjective = 5;
+    [SerializeField] public int currentLevel = 1;
     [SerializeField] private int lives = 3;
 
     private bool gameOver = false;
@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI levelText;
     [SerializeField] private TextMeshProUGUI liveText;
     [SerializeField] private TextMeshProUGUI scorePointsText;
+
+    [SerializeField] private const int levelObjectiveBase = 5;
     private void Awake()
     {
         Instance = this;
@@ -31,12 +33,16 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SetUpStartLevel();
+
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         //ChangeLevel(currentLevel);
+        SetUpStartLevel();
+        ChangeLevel(currentLevel);
     }
 
     public void InremetScore()
@@ -56,15 +62,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChangeLevel(int currentLevel)
+    public void ChangeLevel(int newCurrentLevel)
     {
-        if (levelObjective == score) 
+        if (levelObjective == 0) 
         {
-            currentLevel += 1;
-            levelText.text = currentLevel.ToString();
-            levelObjective = levelObjective * currentLevel;
-            objectiveText.text = levelObjective.ToString();
+            //currentLevel += 1;
+            newCurrentLevel += 1;
+            //currentLevel = newCurrentLevel;
+            levelText.text = newCurrentLevel.ToString();
+
+            var newlevelObjective = levelObjectiveBase * newCurrentLevel;
+            objectiveText.text = newlevelObjective.ToString();
         }
+
+        currentLevel = newCurrentLevel;
     }
 
     private void SetUpNextLevel(int currentLevel)

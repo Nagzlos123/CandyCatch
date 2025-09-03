@@ -1,10 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
     Dictionary<GameObject, GameObject[]> LevelSetUps = new Dictionary<GameObject, GameObject[]>();
+
+    [SerializeField] private GameObject gameManager;
 
     [SerializeField] private Transform[] spaningPoints;
     [SerializeField] private GameObject[] gameLevels;
@@ -24,6 +28,8 @@ public class LevelManager : MonoBehaviour
 
     public static LevelManager Instance;
 
+   
+
     public LevelSetUp currentSetUp;
     public enum LevelSetUp
     {
@@ -41,15 +47,18 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         AddingElemetsToDictionary();
+        CheckDictionary();
         //SpawnCandy();
-        StarSpawning();
+        //StarSpawning();
     }
 
     // Update is called once per frame
     void Update()
     {
         //SpanCandy();
-        ManageLevels();
+        ManageLevelsChageLoop();
+        ManageLevelsSetUp();
+        
     }
 
     private void AddingElemetsToDictionary()
@@ -77,17 +86,25 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    private void CheckDictionary()
+    {
+        foreach (var key in LevelSetUps.Keys)
+        {
+            //Console.WriteLine(key);
+            Debug.Log($"Key:{key}");
+        }
+    }
     private void ChangeLevelSetUp(GameObject gamelevel)
     {
-        var candySet = LevelSetUps[gamelevel];
+        //var candySet = LevelSetUps[gamelevel];
 
         ActivateSection(gamelevel);
         //gamelevel.SetActive(true);
 
-        SpawnCandy(candySet);
+        //SpawnCandy(candySet);
 
     }
-    public void ManageLevels()
+    public void ManageLevelsSetUp()
     {
      
         switch (currentSetUp)
@@ -114,7 +131,38 @@ public class LevelManager : MonoBehaviour
                 break;
         }
     }
+    public void ManageLevelsChageLoop()
+    {
+        if (gameManager.GetComponent<GameManager>().currentLevel == 1 )
+        {
+            SetLevelStage(LevelSetUp.Level1);
+        }
 
+        if (gameManager.GetComponent<GameManager>().currentLevel == 2)
+        {
+            SetLevelStage(LevelSetUp.Level2);
+        }
+
+        if (gameManager.GetComponent<GameManager>().currentLevel == 3)
+        {
+            SetLevelStage(LevelSetUp.Level3);
+        }
+
+        if (gameManager.GetComponent<GameManager>().currentLevel == 4)
+        {
+            SetLevelStage(LevelSetUp.Level4);
+        }
+
+        if (gameManager.GetComponent<GameManager>().currentLevel == 5)
+        {
+            SetLevelStage(LevelSetUp.Level5);
+        }
+
+        if (gameManager.GetComponent<GameManager>().currentLevel == 6)
+        {
+            SetLevelStage(LevelSetUp.Level6);
+        }
+    }
     public void SetLevelStage(LevelSetUp newSetUp)
     {
         currentSetUp = newSetUp;
